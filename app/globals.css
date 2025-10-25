@@ -1,26 +1,244 @@
-@import "tailwindcss";
-
+/* Body and general styling */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --geist-font-sans: 'Geist Sans', sans-serif;
+  --geist-font-mono: 'Geist Mono', monospace;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #000;
+  color: #fff;
+  font-family: var(--geist-font-sans);
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+/* Header */
+.hero {
+  text-align: center;
+  padding: 5rem 1rem;
+  background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/hero-bg.jpg') no-repeat center center/cover;
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hero-content h1 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 3.5rem;
+  margin: 0;
+  color: #fff;
+}
+
+.hero-content p {
+  font-size: 1.5rem;
+  color: #ccc;
+}
+
+.profile-pic {
+  border-radius: 50%;
+  border: 4px solid #0077b6;
+  object-fit: cover;
+}
+
+/* Main content sections */
+main {
+  padding: 2rem 1rem;
+}
+
+section {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #111;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+h2 {
+  text-align: center;
+  color: #0077b6;
+  margin-bottom: 1.5rem;
+}
+
+/* About me section */
+.about-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.about-text {
+  text-align: center;
+}
+
+/* Skills Section Styling */
+.skills-list {
+  display: flex;
+  flex-wrap: wrap; /* Is line ko uncomment kar diya hai */
+  justify-content: center;
+  gap: 1rem;
+}
+
+.skills-list span {
+  background: #0077b6;
+  color: #fff; /* Text ka rang safed kiya hai */
+  padding: 0.75rem 1.5rem; /* Padding adjust ki hai */
+  border-radius: 25px; /* Border radius ko behtar kiya hai */
+  font-size: 1rem;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Aik halka sa shadow add kiya hai */
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease; /* Transition ko behtar kiya hai */
+}
+
+/* Hover effect */
+.skills-list span:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Hover par shadow badha diya hai */
+}
+
+/* Contact form section */
+.contact-info {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+form label {
+  font-weight: bold;
+  color: #ccc;
+}
+
+form input, form textarea {
+  padding: 0.75rem;
+  border: 1px solid #333;
+  border-radius: 4px;
+  background-color: #222;
+  color: #fff;
+}
+
+form input:focus, form textarea:focus {
+  outline: none;
+  border-color: #0077b6;
+}
+
+form button {
+  padding: 1rem;
+  background-color: #0077b6;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+form button:hover {
+  background-color: #005f99;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  border-top: 1px solid #333;
+  background: #111;
+}
+
+.social-share {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.social-share a, .copy-link-btn {
+    color: #fff;
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.social-share a:hover, .copy-link-btn:hover {
+    color: #0077b6;
+}
+
+.copy-link-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Media Queries for Responsiveness */
+@media (min-width: 768px) {
+    .about-content {
+        flex-direction: row;
+        text-align: left;
+    }
+}
+
+/* Quiz Section Styling */
+.quiz-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #111;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.question-section {
+    margin-bottom: 1rem;
+}
+
+.question-count {
+    font-size: 1.2rem;
+    color: #0077b6;
+    margin-bottom: 0.5rem;
+}
+
+.question-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.answer-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.answer-section button {
+    padding: 1rem;
+    background-color: #0077b6;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.answer-section button:hover {
+    background-color: #005f99;
+}
+
+.score-section {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    padding: 1.4rem;
+    background: #0077b6;
+    border-radius: 8px;
 }

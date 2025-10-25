@@ -1,65 +1,133 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.js file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
-}
+import { useState } from 'react';
+import Image from 'next/image';
+import './globals.css';
+import QuizSection from './QuizSection';
+
+const Portfolio = () => {
+    const [status, setStatus] = useState('');
+    const [copyStatus, setCopyStatus] = useState('');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        setStatus('Sending...');
+        const formData = {
+            name: e.target.name.value,
+            email: e.target.email.value,
+            message: e.target.message.value,
+        };
+
+        try {
+            const res = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const data = await res.json();
+            if (res.ok) {
+                setStatus('Message sent successfully!');
+                e.target.reset();
+            } else {
+                setStatus('Failed to send message: ' + data.message);
+            }
+        } catch (error) {
+            setStatus('An error occurred.');
+            console.error('Submission error:', error);
+        }
+    };
+
+    const handleCopyLink = () => {
+        const url = window.location.href;
+        navigator.clipboard.writeText(url)
+            .then(() => {
+                setCopyStatus('Link copied!');
+                setTimeout(() => {
+                    setCopyStatus('');
+                }, 2000);
+            })
+            .catch(err => {
+                setCopyStatus('Failed to copy link.');
+                console.error('Copy failed:', err);
+            });
+    };
+
+    return (
+        <>
+            <header className="hero">
+                <div className="hero-content">
+                    <Image
+                        src="/BG.png"
+                        alt="Muhammad Rehan - Profile Picture"
+                        className="profile-pic"
+                        width={200}
+                        height={200}
+                    />
+                    <h1>Muhammad Rehan</h1>
+                    <p>Web Developer</p>
+                </div>
+            </header>
+
+            <main>
+                <section className="about-me">
+                    <div className="about-content">
+                        <div className="about-text">
+                            <h2>About Me</h2>
+                            <p>My name is Muhammad Rehan. I am from Kasur, Pakistan. I have a strong passion for programming, web design, etc. I am always ready to learn new skills and apply them to real-world projects. This website provides information about my skills. Contact me on **rehanchutto68@gamil.com**</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section className="skills">
+                    <h2>My Skills</h2>
+                    <div className="skills-list">
+                        <span>HTML</span>
+                        <span>CSS</span>
+                        <span>JavaScript</span>
+                        <span>Python</span>
+                        <span>Web Developing</span>
+                    </div>
+                </section>
+
+                <QuizSection />
+
+                <section className="contact-me">
+                    <h2>Contact Me</h2>
+                    <p className="contact-info">My Address: Khara Chugi, Kasur, Pakistan</p>
+                    <form onSubmit={handleSubmit}>
+                        <label htmlFor="name">Name:</label>
+                        <input type="text" id="name" name="name" placeholder="Your Name" required />
+
+                        <label htmlFor="email">Email:</label>
+                        <input type="email" id="email" name="email" placeholder="your-email@example.com" required />
+
+                        <label htmlFor="message">Message:</label>
+                        <textarea id="message" name="message" rows="5" placeholder="Write your message here..." required></textarea>
+
+                        <button type="submit">Send Message</button>
+                    </form>
+                    {status && <p style={{ textAlign: 'center', marginTop: '1rem' }}>{status}</p>}
+                </section>
+            </main>
+
+            <footer>
+                <div className="social-share">
+                    {/* <a href="https://www.facebook.com/hafiz.atif.salfi?mibextid=ZbWKwL" target="_blank" rel="noopener noreferrer">
+                        <i className="fa-brands fa-facebook"></i>
+                    </a> */}
+                    <button onClick={handleCopyLink} className="copy-link-btn">
+                        <i className="fa-solid fa-link"></i>
+                    </button>
+                </div>
+                {copyStatus && <p style={{ textAlign: 'center', marginTop: '1rem' }}>{copyStatus}</p>}
+                <p>&copy; 2025 Muhammad Rehan. All rights reserved.</p>
+            </footer>
+        </>
+    );
+};
+
+export default Portfolio;
